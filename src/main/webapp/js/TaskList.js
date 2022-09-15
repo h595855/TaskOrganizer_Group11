@@ -66,7 +66,10 @@ export default class TaskList extends HTMLElement {
 
 
     noTask() {
-
+            const tasklist = document.querySelector("TASK-LIST");
+        tasklist.shadow.innerHTML = `
+        <p>No tasks found.</p>
+        <button type="button">New task</button>`
     }
 
     // Adds a new task to the view
