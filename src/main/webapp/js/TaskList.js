@@ -95,22 +95,16 @@ export default class TaskList extends HTMLElement {
     }
 
     setStatuseslist(list) {
+       var selects = this.shadow.querySelectorAll('select');
 
-       let select = this.shadow.querySelectorAll("select")
-       console.log(select);
-
-       list.forEach(element => {
-        
-        let option =  document.createElement('option');
-        console.log(option);
-        option.value = element;
-        option.innerHTML = element;
-
-        select[0].appendChild(option);
-
-       });
-        
-
+        selects.forEach(function(element) {
+            let output = '';
+            
+            list.forEach(function(listEl){
+                output += `<option>${listEl}</option>`
+            });
+            element.innerHTML = output;
+        });
     }
     
     // Adds a listener to a new task
