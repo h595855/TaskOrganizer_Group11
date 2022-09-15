@@ -60,8 +60,14 @@ export default class TaskList extends HTMLElement {
     }
 
 
-    deleTaskCallback() {
-
+    deleTaskCallback(id) {
+        let tableRow = this.shadow.getElementById(id);
+        let taskTitle = tableRow.getElementsByTagName("td")[0].textContent;     // Gets the task-title attribute
+        
+        let answer = window.confirm("Delete task " + taskTitle + "?");
+            if(answer){
+                this.removeTask(id);
+            } 
     }
 
 
@@ -75,19 +81,31 @@ export default class TaskList extends HTMLElement {
     // Adds a new task to the view
     showTask(newTask) {
         let taskTable = this.shadow.querySelector("#tasklist-table");
-
+        
         let newRow = taskTable.insertRow(1);
+        newRow.id = newTask.id;
         newRow.innerHTML = ` 
-            <td>${newTask.title}</td>
-            <td>${newTask.status}</td>
-            <td><select> 
-                <option value="" selected disabled hidden>Modify</option>
-                <option value="WAITING">WAITING</option>
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="DONE">DONE</option>
+            <td id="task-title">${newTask.title}</td>
+            <td id="task-status">${newTask.status}</td>
+            <td><select class="row-status-options"> 
+
+           
+
             </select></td>
-            <td ><button id="remove-btn" type="button">REMOVE</button></td>
+            <td>
+                <button id="remove-btn" type="button">REMOVE</button>
+            </td>
         `;
+        this.removeBtnListener();
+    }
+    
+    // Adds a listener to a new task
+    removeBtnListener(){
+        let removeButton = this.shadow.getElementById("remove-btn");
+        removeButton.addEventListener("click", (event) => {
+            var taskId = event.path[2].getAttribute('id');      // gets the id attribute of the tablerow with the clicked button
+            this.deletetaskCallback(taskId);  
+        });
     }
 
     updateTask(status) {
@@ -100,11 +118,16 @@ export default class TaskList extends HTMLElement {
     }
 
     removeTask(id) {
-
+        let tableRow = this.shadow.getElementById(id);
+        tableRow.parentElement.removeChild(tableRow);
     }
 
-    setStatuseslist(list) {
-
+    setStatusesList(list) {
+        let output = '';
+        list.forEach((statusOpt) => {
+            output += `<option>${statusOpt}</option>`;
+        });
+        this.shadow.getElementByClassName("row-status-options").innerHTML = output;
     }
 
 }
