@@ -94,8 +94,10 @@ export default class TaskList extends HTMLElement {
         this.removeBtnListener();
     }
 
+
     setStatuseslist(list) {
-       var selects = this.shadow.querySelectorAll('select');
+
+       let selects = this.shadow.querySelectorAll('select');
 
         selects.forEach(function(element) {
             let output = '';
@@ -105,8 +107,9 @@ export default class TaskList extends HTMLElement {
             });
             element.innerHTML = output;
         });
+
     }
-    
+
     // Adds a listener to a new task
     removeBtnListener(){
         let removeButton = this.shadow.getElementById("remove-btn");
