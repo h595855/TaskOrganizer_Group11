@@ -37,11 +37,7 @@ export default class TaskList extends HTMLElement {
             <tr id="task-row">
                 <td >Title</td>
                 <td >Status</td>
-                <td><select> 
-                    <option value="" selected disabled hidden>Modify</option>
-                    <option value="WAITING">WAITING</option>
-                    <option value="ACTIVE">ACTIVE</option>
-                    <option value="DONE">DONE</option>
+                <td><select class="option"> 
                 </select></td>
                 <td ><button id="remove-btn" type="button">REMOVE</button></td>
             </tr>
@@ -51,7 +47,7 @@ export default class TaskList extends HTMLElement {
     }
 
     addtaskCallback(callback) {
-        let btn = this.shadow.querySelector("#btn-newtask");
+        let btn = this.shadow.querySelector("#newtask-btn");
         btn.addEventListener("click", callback);
     }
 
@@ -60,7 +56,7 @@ export default class TaskList extends HTMLElement {
     }
 
 
-    deleTaskCallback(id) {
+    deletetaskCallback(id) {
         let tableRow = this.shadow.getElementById(id);
         let taskTitle = tableRow.getElementsByTagName("td")[0].textContent;     // Gets the task-title attribute
         
@@ -69,7 +65,6 @@ export default class TaskList extends HTMLElement {
                 this.removeTask(id);
             } 
     }
-
 
     noTask() {
             const tasklist = document.querySelector("TASK-LIST");
@@ -98,12 +93,31 @@ export default class TaskList extends HTMLElement {
         `;
         this.removeBtnListener();
     }
+
+    setStatuseslist(list) {
+
+       let select = this.shadow.querySelectorAll("select")
+       console.log(select);
+
+       list.forEach(element => {
+        
+        let option =  document.createElement('option');
+        console.log(option);
+        option.value = element;
+        option.innerHTML = element;
+
+        select[0].appendChild(option);
+
+       });
+        
+
+    }
     
     // Adds a listener to a new task
     removeBtnListener(){
         let removeButton = this.shadow.getElementById("remove-btn");
         removeButton.addEventListener("click", (event) => {
-            var taskId = event.path[2].getAttribute('id');      // gets the id attribute of the tablerow with the clicked button
+            let taskId = event.path[2].getAttribute('id');      // gets the id attribute of the tablerow with the clicked button
             this.deletetaskCallback(taskId);  
         });
     }
@@ -122,13 +136,6 @@ export default class TaskList extends HTMLElement {
         tableRow.parentElement.removeChild(tableRow);
     }
 
-    setStatusesList(list) {
-        let output = '';
-        list.forEach((statusOpt) => {
-            output += `<option>${statusOpt}</option>`;
-        });
-        this.shadow.getElementByClassName("row-status-options").innerHTML = output;
-    }
 
 }
 
