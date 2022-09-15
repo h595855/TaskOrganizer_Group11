@@ -47,7 +47,7 @@ export default class TaskBox extends HTMLElement {
     }
 
     testModal() {
-        const updateButton = document.querySelector('updateDetails');
+        const updateButton = this.shadow.querySelector('#updateDetails');
         const favDialog = this.shadow.getElementById('favDialog');
         //const outputBox = this.shadow.querySelector('output');
         //const selectEl = favDialog.querySelector('select');
@@ -62,21 +62,29 @@ export default class TaskBox extends HTMLElement {
         let favDialog = this.shadow.getElementById('favDialog');
         let confirmBtn = favDialog.querySelector('#confirmBtn');
         var task = favDialog.querySelector('Task').value();
-        confirmBtn.addEventListener("click", () => {
-        console.log("Callback funke" + `${task}`);
-        });
+        confirmBtn.addEventListener("click", callback);
         callback();
-    }
+        }
+    
 
     setStatuseslist(list){
-
+        let select = this.shadow.querySelectorAll("select")
+        console.log(select);
+ 
+        list.forEach(element => {
+         
+         let option =  document.createElement('option');
+         console.log(option);
+         option.value = element;
+         option.innerHTML = element;
+ 
+         select[0].appendChild(option);
+ 
+        });
     }
-
     close(){
-        
+        const favDialog = this.shadow.getElementById('favDialog');
+        favDialog.close();
     }
-
-
-   
 
 }
