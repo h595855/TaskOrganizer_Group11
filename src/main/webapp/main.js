@@ -7,14 +7,3 @@ customElements.define('task-box', TaskBox);
 
 const tasklist = document.querySelector("TASK-LIST")
 const taskbox = document.querySelector("TASK-BOX");
-
-/*
-taskbox.show();
-taskbox.newTaskCallback(
-    (task) => {
-        console.log("yo")
-    }
-);
-*/
-
-

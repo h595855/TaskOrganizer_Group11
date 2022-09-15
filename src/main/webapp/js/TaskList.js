@@ -25,7 +25,7 @@ export default class TaskList extends HTMLElement {
             <span id="task-counter">Found taskCount tasks</span>
         </div>
 
-        <button id="newtask-btn" type="button">New task</button>
+        <button type="button" id="newtask-btn">New task</button>
         
         <table id="tasklist-table">
             <tr id="taskheader-row">
@@ -37,11 +37,11 @@ export default class TaskList extends HTMLElement {
             <tr id="task-row">
                 <td >Title</td>
                 <td >Status</td>
-                <td><select> 
+                <td><select id="statusId"> 
                     <option value="" selected disabled hidden>Modify</option>
-                    <option value="WAITING">WAITING</option>
+                 <!--   <option value="WAITING">WAITING</option>
                     <option value="ACTIVE">ACTIVE</option>
-                    <option value="DONE">DONE</option>
+                    <option value="DONE">DONE</option> -->
                 </select></td>
                 <td ><button id="remove-btn" type="button">REMOVE</button></td>
             </tr>
@@ -51,7 +51,7 @@ export default class TaskList extends HTMLElement {
     }
 
     addtaskCallback(callback) {
-        let btn = this.shadow.querySelector("#btn-newtask");
+        let btn = this.shadow.querySelector('newtask-btn');
         btn.addEventListener("click", callback);
     }
 
@@ -77,7 +77,7 @@ export default class TaskList extends HTMLElement {
         <p>No tasks found.</p>
         <button type="button">New task</button>`
     }
-
+    
     // Adds a new task to the view
     showTask(newTask) {
         let taskTable = this.shadow.querySelector("#tasklist-table");
@@ -109,11 +109,10 @@ export default class TaskList extends HTMLElement {
     }
 
     updateTask(status) {
-        if (status.id === newtask.id) {
-            newtask.status = status.status;
-        } else {
-            console.log("amogus");
-        }
+       var row = this.shadow.getElementById(status.id);
+
+       row.deleterow(1);
+       row.insertRow(1).status.status;
 
     }
 

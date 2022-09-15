@@ -20,20 +20,19 @@ export default class TaskBox extends HTMLElement {
         <dialog id="favDialog">
            
             <p><label>Title: 
-            <input type="text" value="Task title">
+            <input type="text" value="Task title" id="Task">
             </label></p>
             <form method="dialog">
                 <p><label>Status:
                     <select>
                         <option value="default">Choose…</option>
-                        <option>..</option>
+                        <option>WAITING</option>
                         <option>ACTIVE</option>
                         <option>DONE</option>
                     </select>
                 </label></p>
                 <div>
-                    <button value="cancel">Cancel</button>
-                    <button id="confirmBtn" value="default">Confirm</button>
+                    <button id="confirmBtn" value="default">Add task</button>
                 </div>
             </form>
         </dialog>
@@ -48,28 +47,36 @@ export default class TaskBox extends HTMLElement {
     }
 
     testModal() {
-        const updateButton = this.shadow.getElementById('updateDetails');
+        const updateButton = document.querySelector('updateDetails');
         const favDialog = this.shadow.getElementById('favDialog');
         //const outputBox = this.shadow.querySelector('output');
         //const selectEl = favDialog.querySelector('select');
-
         // "Update details" button opens the <dialog> modally
         updateButton.addEventListener('click', () => {
             favDialog.showModal();
-          
         });
     }
-
-   
+    
+    
     newTaskCallback(callback) {
         let favDialog = this.shadow.getElementById('favDialog');
         let confirmBtn = favDialog.querySelector('#confirmBtn');
+        var task = favDialog.querySelector('Task').value();
         confirmBtn.addEventListener("click", () => {
-        console.log("Callback funke");
+        console.log("Callback funke" + `${task}`);
         });
         callback();
     }
+
+    setStatuseslist(list){
+
+    }
+
+    close(){
+        
+    }
+
+
    
 
 }
-
