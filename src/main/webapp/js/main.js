@@ -1,7 +1,7 @@
-import TaskList from './js/TaskList.js'
+import TaskList from '../components/tasklist/TaskList.js'
 customElements.define('task-list', TaskList);
 
-import TaskBox from './js/TaskBox.js'
+import TaskBox from '../components/taskbox/TaskBox.js'
 customElements.define('task-box', TaskBox);
 
 
