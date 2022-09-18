@@ -7,81 +7,65 @@ export default class TaskBox extends HTMLElement {
     show() {
         this.shadow.innerHTML= `   
         <!-- Simple modal dialog containing a form -->
-        
-        <section class="container content-section">
-            <H1 class="section-header">Tasks</H1>
-
-            <div class="task-count">
-            <span class="task-total-count">Found Count tasks</span>
-            </div>
-
-            </section>
-        
+        <link rel="stylesheet" href="styleModal.css">
         <dialog id="favDialog">
-           
-            <p><label>Title: 
-            <input type="text" value="Task title" id="Task">
-            </label></p>
             <form method="dialog">
+                <div id="close-div">
+                    <button type="button" id="close-btn">x</button>
+                </div>
+                <label for="title">Title:</label> 
+                <input type="text" id="title">
                 <p><label>Status:
-                    <select>
-                        <option value="default">Choose…</option>
-                        <option>WAITING</option>
-                        <option>ACTIVE</option>
-                        <option>DONE</option>
+                    <select id="status-options">
+                        
                     </select>
                 </label></p>
                 <div>
-                    <button id="confirmBtn" value="default">Add task</button>
+                    <button id="addTask-btn" value="default">Add task</button>
                 </div>
             </form>
         </dialog>
-            <p>
-                <button id="updateDetails">Update details</button>
-            </p>
         <output></output>
         `;
-        
-        //metoder
-        this.testModal();
+        this.openModal();
     }
 
-    testModal() {
-        const updateButton = this.shadow.querySelector('#updateDetails');
+    openModal() {
+        const updateButton = this.shadow.getElementById('updateDetails');
         const favDialog = this.shadow.getElementById('favDialog');
-        //const outputBox = this.shadow.querySelector('output');
-        //const selectEl = favDialog.querySelector('select');
-        // "Update details" button opens the <dialog> modally
-        updateButton.addEventListener('click', () => {
-            favDialog.showModal();
-        });
-    }
-    
-    
-    newTaskCallback(callback) {
-        let favDialog = this.shadow.getElementById('favDialog');
-        let confirmBtn = favDialog.querySelector('#confirmBtn');
-        var task = favDialog.querySelector('Task').value();
-        confirmBtn.addEventListener("click", callback);
-        callback();
-        }
-    
+        const outputBox = this.shadow.querySelector('output');
+        const selectEl = favDialog.querySelector('select');
+        const addTaskBtn = favDialog.querySelector('#addTask-btn');
 
-    setStatuseslist(list){
-        let select = this.shadow.querySelectorAll("select")
-        console.log(select);
- 
-        list.forEach(element => {
-         
-         let option =  document.createElement('option');
-         console.log(option);
-         option.value = element;
-         option.innerHTML = element;
- 
-         select[0].appendChild(option);
- 
+        favDialog.showModal();
+
+        // // "Update details" button opens the <dialog> modally
+        // updateButton.addEventListener('click', () => {
+        //     if (typeof favDialog.showModal === "function") {
+        //         favDialog.showModal();
+        //     } else {
+        //         outputBox.value = "Sorry, the <dialog> API is not supported by this browser.";
+        //     }
+        // });
+    }
+    
+    
+    setStatusesList(list) {
+        let output = '';
+        list.forEach((statusOpt, index) => {
+            output += `<option>${statusOpt}</option>`;
+        });
+        this.shadow.getElementById("status-options").innerHTML = output;
+    }
+
+    newtaskCallback(){
+        window.addEventListener('addNewTask', (event) => {
+            let detail = event.detail.value;
+            console.log(detail + " was passed from TaskList.js");
+            this.show();
         });
     }
+    
     close(){
         const favDialog = this.shadow.getElementById('favDialog');
         favDialog.close();

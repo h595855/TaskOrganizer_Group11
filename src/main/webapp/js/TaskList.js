@@ -46,9 +46,20 @@ export default class TaskList extends HTMLElement {
         `;
     }
 
-    addtaskCallback(callback) {
-        let btn = this.shadow.querySelector("#newtask-btn");
-        btn.addEventListener("click", callback);
+    addTaskCallback() {
+        let newTaskBtn = this.shadow.querySelector("#newtask-btn");
+
+        newTaskBtn.addEventListener('click', function() {
+            let event = new CustomEvent('addNewTask', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    value: 'something'
+                }
+            });
+            this.dispatchEvent(event);
+            console.log("event was dispatched")
+        });
     }
 
     changeStatusCallback() {
